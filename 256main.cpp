@@ -3,7 +3,7 @@
 #include <ctime>
 #include <iostream>
 #include <list>
-#include "DrawFunc.h"
+#include "drawFunc.h"
 #include "suppliedGlutFuncs.h"
 #include "Terrain.h"
 #include "vector.h"
@@ -14,6 +14,9 @@
 #else
 #include <GL/glut.h>
 #endif
+
+#define TRUE 1
+#define FALSE 0
 
 using namespace std;
 
@@ -63,7 +66,7 @@ Terrain terrain1(imageSize,imageSize);
 Terrain terrain2(imageSize,imageSize);
 Terrain terrain3(imageSize,imageSize);
 
-int xt = 0; int zt = 0; int index = 0;
+int xt = 0; int zt = 0; int indx = 0;
 
 /*--Camera's-Look-Vector---*/
 /*--Camera's-Position-----*/
@@ -198,10 +201,10 @@ void handleFunc(float dt)
 
 		if((xt < 255) && (zt < 255))			//0						
 		{
-			index = zt * imageSize + xt;
-			if(camPos.y <= (mapHeights0[index] * 1500.0f - 115.0f))
+			indx = zt * imageSize + xt;
+			if(camPos.y <= (mapHeights0[indx] * 1500.0f - 115.0f))
 			{
-				camPos.y = mapHeights0[index] * 1500.0f - 115.0f;			
+				camPos.y = mapHeights0[indx] * 1500.0f - 115.0f;			
 				inJump = FALSE;
 			}						
 		}
@@ -220,8 +223,8 @@ void updateCamHeight()
 
 	if((xt < 255) && (zt < 255))			//0						
 	{																								//		v-*-*
-		index = zt * imageSize + xt;									
-		camPos.y = mapHeights0[index] * 1500.0f - 115.0f;			
+		indx = zt * imageSize + xt;									
+		camPos.y = mapHeights0[indx] * 1500.0f - 115.0f;			
 	}
 }
 bool floorDistance()
@@ -231,10 +234,10 @@ bool floorDistance()
 
 	if((xt < 255) && (zt < 255))			//0						
 	{																								//		v-*-*
-		index = zt * imageSize + xt;	
-		if(camPos.y > (mapHeights0[index] * 1500.0f - 25.0f))
+		indx = zt * imageSize + xt;	
+		if(camPos.y > (mapHeights0[indx] * 1500.0f - 25.0f))
 			return FALSE;
-		else if(camPos.y < (mapHeights0[index] * 1500.0f - 300.0f))
+		else if(camPos.y < (mapHeights0[indx] * 1500.0f - 300.0f))
 			return FALSE;
 		else
 			return TRUE;											

@@ -14,7 +14,7 @@
 #include <GL/glut.h>
 #endif
 
-#include "Vector.h"
+#include "vector.h"
 
 class Terrain
 {

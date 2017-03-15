@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <chrono>
-
+#include "string.h"
 #include "vector.h"
 #ifdef __APPLE__
 #include <GLUT/glut.h>
