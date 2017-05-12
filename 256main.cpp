@@ -3,20 +3,18 @@
 #include <ctime>
 #include <iostream>
 #include <list>
-#include "drawFunc.h"
-#include "suppliedGlutFuncs.h"
+#include <chrono>
+#include "DrawFunc.h"
+#include "SuppliedGlutFuncs.h"
 #include "Terrain.h"
 #include "vector.h"
-#include <SOIL.h>
+#include "SOIL.h"
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
-
-#define TRUE 1
-#define FALSE 0
 
 using namespace std;
 
@@ -28,8 +26,8 @@ chrono::steady_clock::time_point currentTime, lastTime, jumpStart;
 
 /*------Bool-Inputs-------*/
 bool keyStates[256], keyTaps[256];
-bool isCrouched = FALSE;
-bool inJump = FALSE;
+bool isCrouched = false;
+bool inJump = false;
 
 /*------View-Angles-------*/
 float heading = 0.0f;
@@ -53,7 +51,7 @@ float initialJumpHeight = 0.0f;
 GLUquadricObj* quadric;
 int centerX, centerY, texture, face, grass;
 void* font = GLUT_BITMAP_HELVETICA_18;
-bool loadHiRes, wireFrame = FALSE;
+bool loadHiRes, wireFrame = false;
 
 /*------Terrain-Data------*/
 float* mapHeights0;
@@ -80,7 +78,7 @@ void Clear_Keyboard_Input_Buffer()
 
 void handleFunc(float dt)
 {
-	float vecx, vecy, vecz;
+	float vecx, vecz;
 
 	/*--------change perspective---------*/
 	if(keyStates['`'])
@@ -142,7 +140,6 @@ void handleFunc(float dt)
 	if(keyStates['a'] || keyStates['A'])
 	{
 		vecx = camLook.z;
-		vecy = camLook.y;
 		vecz = -camLook.x;
 		camPos.x+= vecx*(crouchFactor*camSpeed*5.0f*dt);
 		camPos.z+= vecz*(crouchFactor*camSpeed*5.0f*dt);
@@ -152,7 +149,6 @@ void handleFunc(float dt)
 	{
 
 		vecx = camLook.z;
-		vecy = camLook.y;
 		vecz = -camLook.x;
 		camPos.x-= vecx*(crouchFactor*camSpeed*5.0f*dt);
 		camPos.z-= vecz*(crouchFactor*camSpeed*5.0f*dt);		
@@ -186,7 +182,7 @@ void handleFunc(float dt)
 	/*----------jump--------------*/
 	if(keyStates[' '])
 	{
-		inJump = TRUE;
+		inJump = true;
 		initialJumpHeight = camPos.y;
 		jumpStart = chrono::steady_clock::now();
 	}
@@ -205,7 +201,7 @@ void handleFunc(float dt)
 			if(camPos.y <= (mapHeights0[indx] * 1500.0f - 115.0f))
 			{
 				camPos.y = mapHeights0[indx] * 1500.0f - 115.0f;			
-				inJump = FALSE;
+				inJump = false;
 			}						
 		}
 		else if(camPos.y <= -30000.0f)
@@ -232,16 +228,17 @@ bool floorDistance()
 	zt = static_cast<int>(camPos.z)/64;
 	xt = static_cast<int>(camPos.x)/64; 
 
-	if((xt < 255) && (zt < 255))			//0						
+	if((xt < 255) && (zt < 255))
 	{																								//		v-*-*
 		indx = zt * imageSize + xt;	
 		if(camPos.y > (mapHeights0[indx] * 1500.0f - 25.0f))
-			return FALSE;
-		else if(camPos.y < (mapHeights0[indx] * 1500.0f - 300.0f))
-			return FALSE;
-		else
-			return TRUE;											
+			return false;
+
+		if(camPos.y < (mapHeights0[indx] * 1500.0f - 300.0f))
+			return false;
 	}
+	else
+		return true;
 }
 void renderScene(void)
 {
@@ -319,7 +316,7 @@ int main(int argc, char **argv)
 
 	if(argc == 1)
 	{
-		loadHiRes = FALSE;
+		loadHiRes = false;
 		cout <<"> Loading Lo-Res textures ..." << endl;
 	}
 	else
@@ -327,17 +324,17 @@ int main(int argc, char **argv)
 		if(argv[1][0] == '0')
 		{
 			cout <<"> Loading Lo-Res textures ..." << endl;
-			loadHiRes = FALSE;
+			loadHiRes = false;
 		}
 		else if(argv[1][0] == '1')
 		{
 			cout <<"> Loading Hi-Res textures ..." << endl;
-			loadHiRes = TRUE;
+			loadHiRes = true;
 		}
 		else 
 		{
 			cout <<"> Invalid arguements, loading Lo-Res textures ..." << endl;
-			loadHiRes = FALSE;
+			loadHiRes = false;
 		}
 
 	}

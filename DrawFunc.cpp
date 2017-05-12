@@ -1,4 +1,4 @@
-#include "drawFunc.h"
+#include "DrawFunc.h"
 extern Vec3 campos, camlook;
 
 void drawgrid()

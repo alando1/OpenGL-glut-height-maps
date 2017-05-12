@@ -23,10 +23,10 @@ class Terrain
 		float midPoint;
 		int length;
 		int width;
-		float scalar;
 		float* heights;
 		int tileSize;
 		float heightRatio;
+		float scalar;
 
 		void buildHeightMap(unsigned char* buffer);
 
