@@ -236,6 +236,8 @@ bool floorDistance()
 
 		if(camPos.y < (mapHeights0[indx] * 1500.0f - 300.0f))
 			return false;
+
+		return true;
 	}
 	else
 		return true;
